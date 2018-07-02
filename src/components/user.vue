@@ -15,6 +15,7 @@
                <router-link exact to="?info=share">他的分享</router-link>
            </div>
         {{$route.query}}
+        {{rt}}
     </div>
 </template>
 
@@ -22,9 +23,28 @@
     import user from '../data/user.js'
     export default {
         name: "user",
+        beforeCreate(){
+            console.log("组件的钩子函数执行了么，在beforeRouteEnter执行之前")
+        },
+        beforeRouteEnter(to,from,next){
+            console.log('组件内导航,进入前执行,该函数执行时，组件还没有被创建，this不能直接用');
+            console.log(this);
+            next((vm)=>{
+                vm.rt="rrrttt";
+                console.log(vm.rt+'vm表示组件实例');
+            });
+        },
+        beforeRouteUpdate(to,from,next){
+            console.log("导航更新时执行");
+            next();
+        },
+        beforeRouteLeave(to,from,next){
+            console.log("离开时执行");
+            console.log(this.userInfo);
+        },
         data(){
             return {
-
+                    rt:'rt',
                     user:[],
                     userInfo:{},
 

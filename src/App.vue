@@ -20,16 +20,30 @@
         </li>
       </ul>
     </div>
-    <router-view  class="center" name="ccc" />
-    <router-view  class="center" name="bb" />
+    <!--<router-view  class="center" name="ccc" />-->
+    <!--<router-view  class="center" name="bb" />-->
 
-    <router-view  class="center" />
+    <transition mode="out-in">
+        <router-view  class="center" />
+    </transition>
+    {{$route.meta.chj}}
+    <button @click="replace"> replace</button>
   </div>
 </template>
 
 <script>
 export default {
   name: 'App',
+    watch:{
+      $route(to,from){
+          console.log(to.meta);
+      }
+    },
+    methods:{
+      replace(){
+          this.$router.replace('/user');
+      }
+    }
 }
 </script>
 
@@ -42,12 +56,30 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+.v-enter{
+  opacity: 0;
+}
+.v-enter-to{
+  opacity: 1;
+}
+.v-enter-active{
+  transition: 10s;
+}
   ul li {
     list-style: none;
     display: inline;
   }
   .is_active {
     background: red;
+  }
+  .v-leave{
+    opacity: 1;
+  }
+  .v-leave-to{
+    opacity: 0;
+  }
+  .v-leave-active{  //控制菜单过度效果
+    transition: 20s;
   }
   .aaa{
     background: green;
@@ -56,4 +88,5 @@ export default {
     font-size:30px;
 
   }
+
 </style>

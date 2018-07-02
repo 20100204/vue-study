@@ -34,7 +34,10 @@ const routes = [
                 path: '/',
                 name: 'HelloWorld',
                 component: Home,
-                    alias:'/index'
+                    alias:'/index',
+                    meta:{//meta用来存放自定义数据
+                    chj:'test'
+                    }
                     //别名
                 },
                 {
@@ -55,17 +58,36 @@ const routes = [
                         ccc:Slider,
                         bb:Bb
 
-                    }
+                    },
+                    beforeEnter(to,from,next){
+                        console.log('单独路由钩子函数');
+                       next();
+                    },
+
                 }
     ];
-export default new Router({
+var router =  new Router({
     routes: routes,
     mode:'history',
     linkActiveClass:'is_active',
     scrollBehavior(to,from,savePosition){//滚动行为，前进后退或切换导航时触发
+
       //  console.log(to);
       //  console.log(from);
        // console.log(savePosition);//这个参数只有在前进后退时才有，导航切换时没有
     }
+
+})
+export  default router;
+router.beforeEach((to,from,next)=>{
+    console.log("全局钩子函数");
+   // console.log(to);
+  //  console.log(from);
+  //  console.log(next);
+    //next({path:'/'});
+    next();
+})
+router.afterEach((to,from)=>{
+    console.log("全局钩子函数,进入后执行");
 
 })
